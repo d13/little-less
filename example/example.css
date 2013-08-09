@@ -1,0 +1,95 @@
+/* =========================================
+ * GRID IMPLEMENTATION
+ * ========================================= */
+.container {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 960px;
+  *zoom: 1;
+  /*
+  & + & {
+    margin-top:10px;
+  }
+  */
+
+}
+.container:before,
+.container:after {
+  content: "";
+  display: table;
+}
+.container:after {
+  clear: both;
+}
+body [class*='col'] {
+  display: inline;
+  float: left;
+  min-height: 1px;
+  margin-left: 1.0416666666666665%;
+  margin-right: 1.0416666666666665%;
+}
+.col12 {
+  width: 97.91666666666666%;
+}
+.col11 {
+  width: 89.58333333333333%;
+}
+.col10 {
+  width: 81.24999999999999%;
+}
+.col9 {
+  width: 72.91666666666666%;
+}
+.col8 {
+  width: 64.58333333333333%;
+}
+.col7 {
+  width: 56.24999999999999%;
+}
+.col6 {
+  width: 47.91666666666666%;
+}
+.col5 {
+  width: 39.58333333333332%;
+}
+.col4 {
+  width: 31.249999999999996%;
+}
+.col3 {
+  width: 22.916666666666664%;
+}
+.col2 {
+  width: 14.583333333333332%;
+}
+.col1 {
+  width: 6.249999999999999%;
+}
+.container_by_4 .col {
+  width: 22.916666666666664%;
+}
+@media only screen and (max-width: 480px) {
+  body [class*='col'] {
+    display: block;
+    float: none;
+    min-height: 1px;
+    margin-left: 10px;
+    margin-right: 10px;
+    width: auto;
+  }
+  .container_by_4 .col {
+    width: auto;
+  }
+}
+/* =========================================
+ * SITE STYLES
+ * ========================================= */
+.example {
+  background-color: #aaa;
+  padding: 10px 0;
+}
+.pod {
+  background-color: #eaeaea;
+  padding: 10px;
+  margin: 10px 0;
+}

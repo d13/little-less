@@ -1,0 +1,109 @@
+// =========================================
+// Util
+// =========================================
+.clearfix() {
+  *zoom:1;
+  &:before,
+  &:after {
+    content:"";
+    display:table;
+  }
+  &:after {
+    clear:both;
+  }
+}
+
+// =========================================
+// Grids
+// =========================================
+
+// config
+@gridColumnPrefix: col;
+@gridColumns:      12;
+@gridColumnWidth:  60px;
+@gridGutterWidth:  20px;
+
+// basic calcs
+@gridTotalColumn:       (@gridColumnWidth + @gridGutterWidth);
+@gridRowWidth:          (@gridTotalColumn * @gridColumns);
+@gridColumnGutterWidth: (@gridGutterWidth / 2);
+
+@gridFluidTotalColumn:       percentage(@gridTotalColumn/@gridRowWidth);
+@gridFluidColumnWidth:       percentage(@gridColumnWidth/@gridRowWidth);
+@gridFluidGutterWidth:       percentage(@gridGutterWidth/@gridRowWidth);
+@gridFluidColumnGutterWidth: (@gridFluidGutterWidth / 2);
+
+// base mixins
+.getRow(@width:@gridRowWidth) {
+  max-width:@width;
+  .clearfix();
+}
+
+// create grid
+.getGutters(@multi:1) {
+  margin-left:(@gridFluidColumnGutterWidth * @multi);
+  margin-right:(@gridFluidColumnGutterWidth * @multi);
+}
+.getColumnBase() {
+  display: inline;
+  float: left;
+  min-height: 1px; // prevent collapsing columns
+  .getGutters();
+}
+.getColumnWidth(@column: 1) {
+  //width:(@fluidGridColumnWidth * @column) + (@fluidGridGutterWidth * (@column - 1));
+  width:((@gridFluidTotalColumn * @column) - @gridFluidGutterWidth);
+}
+.getColumn(@column: 1) {
+  .getColumnBase();
+  .getColumnWidth(@column);
+}
+.buildGrid(@prefix: @gridColumnPrefix) {
+  
+  body [class*='@{prefix}'] { // body added to selector cuz of modernizr classes
+    .getColumnBase();
+  }
+  
+  .makeColumns (@index) when (@index > 0) {
+      .@{prefix}@{index} { .getColumnWidth(@index); }
+      .makeColumns(@index - 1);
+  }
+  .makeColumns (0) {}
+  
+  .makeColumns(@gridColumns);
+}
+
+
+// break grid
+.getFixedGutters(@multi:1) {
+  margin-left:(@gridColumnGutterWidth * @multi);
+  margin-right:(@gridColumnGutterWidth * @multi);
+}
+.breakColumnBase() {
+  display: block;
+  float: none;
+  min-height: 1px; // prevent collapsing columns
+  .getFixedGutters();
+}
+.breakColumnWidth() {
+  width:auto;
+}
+.breakColumn() {
+  .breakColumnBase();
+  .breakColumnWidth();
+}
+.breakGrid(@prefix: @gridColumnPrefix) {
+  
+  body [class*='@{prefix}'] { // body added to selector cuz of modernizr classes
+    .breakColumnBase();
+    .breakColumnWidth();
+  }
+  
+//  .makeColumns (@index) when (@index > 0) {
+//    .@{prefix}@{index} { .breakColumnWidth(); }
+//    .makeColumns(@index - 1);
+//  }
+//  .makeColumns (0) {}
+  
+//  .makeColumns(@gridColumns);
+}
